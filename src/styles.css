@@ -1,0 +1,71 @@
+*, ::before, ::after{
+	box-sizing: border-box;
+}
+
+:root{
+	--background-color: #33332d;
+	--font-color: #fff;
+}
+
+body{
+	background-color: var(--background-color);
+	color: var(--font-color);
+
+	font-family: 'IBM Plex Mono', monospace;
+}
+
+.button{
+	cursor: pointer;
+	width: 150px;
+	height: 35px;
+	border-radius: 5px;
+	background-color: #fff;
+	font-size: 16px;
+	border: 6px double black;
+	font-weight: 700;
+}
+
+.button:hover{
+	border: 8px double black;
+	background-color: #f7f7f7;
+}
+
+.login-form{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.blog{
+	display: flex;
+	gap: 15px;
+}
+
+.blog-author{
+	font-style: italic;
+}
+
+.user-info{
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.logout-btn{
+	width: 100px;
+	height: 30px;
+	font-size: 14px;
+	font-weight: 400px;
+}
+
+.create-blog__form{
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	gap: 8px;
+}
+
+.create-blog__form label{
+	display: flex;
+	justify-content: space-between;
+}
