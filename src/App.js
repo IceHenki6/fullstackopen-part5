@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
@@ -16,9 +16,11 @@ const App = () => {
 	const [password, setPassword] = useState("")
 	const [user, setUser] = useState(null)
 
-	const [title, setTitle] = useState("")
-	const [author, setAuthor] = useState("")
-	const [url, setUrl] = useState("")
+	// const [title, setTitle] = useState("")
+	// const [author, setAuthor] = useState("")
+	// const [url, setUrl] = useState("")
+
+	const blogFormRef = useRef()
 
 	const [errorMessage, setErrorMessage] = useState(null)
 	const [notification, setNotification] = useState(null)
@@ -77,16 +79,11 @@ const App = () => {
 		setUser(null)
 	}
 
-	const createBlog = async (event) => {
-		event.preventDefault()
-		const blogObj = {
-			title: title,
-			author: author,
-			url: url
-		}
-
+	const createBlog = async (blogObj) => {
+		blogFormRef.current.toggleVisibility()
 		try{
 			const newBlog = await blogService.create(blogObj)
+			console.log(newBlog.user)
 			setBlogs(blogs.concat(newBlog))
 			setNotification(`Blog '${newBlog.title}' created successfully`)
 			setTimeout(() => {
@@ -101,17 +98,17 @@ const App = () => {
 		}
 	}
 
-	const handleTitleChange = ({target}) => {
-		setTitle(target.value)
-	}
+	// const handleTitleChange = ({target}) => {
+	// 	setTitle(target.value)
+	// }
 
-	const handleAuthorChange = ({target}) => {
-		setAuthor(target.value)
-	}
+	// const handleAuthorChange = ({target}) => {
+	// 	setAuthor(target.value)
+	// }
 
-	const handleUrlChange = ({target}) => {
-		setUrl(target.value)
-	}
+	// const handleUrlChange = ({target}) => {
+	// 	setUrl(target.value)
+	// }
 
   return (
     <div>
@@ -129,7 +126,13 @@ const App = () => {
 
 			{user != null && <UserInfo handleLogout={handleLogout} username={user.username}/>}
 
-			{user != null && <NewBlog createBlog={createBlog} handleTitleChange={handleTitleChange} handleAuthorChange={handleAuthorChange} handleUrlChange={handleUrlChange}/>}
+			{
+				user != null 
+				&& 
+				<Toggleable buttonLabel='new blog' ref={blogFormRef}>
+					<NewBlog createBlog={createBlog}/>
+				</Toggleable>
+			}
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />

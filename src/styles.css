@@ -38,7 +38,23 @@ body{
 
 .blog{
 	display: flex;
+	flex-direction: column;
+	/* gap: 5px; */
+	border: 8px double black;
+	width: 600px;
+	padding: 10px;
+}
+
+.blog-preview{
+	display: flex;
 	gap: 15px;
+	align-items: center;
+}
+
+.view-btn{
+	height: 35px;
+	width: 70px;
+	font-size: 12px;
 }
 
 .blog-author{
