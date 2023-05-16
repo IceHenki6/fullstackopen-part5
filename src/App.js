@@ -26,9 +26,19 @@ const App = () => {
 	const [notification, setNotification] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    // blogService.getAll().then(blogs =>
+    //   setBlogs( blogs )
+    // )
+		const getAllBlogs = async () => {
+			try{
+				const response = await blogService.getAll()
+				setBlogs(response)
+			}catch(error){
+				console.log(error)
+			}
+		}
+		
+		getAllBlogs()
   }, [])
 
 	useEffect(() => {
@@ -83,8 +93,10 @@ const App = () => {
 		blogFormRef.current.toggleVisibility()
 		try{
 			const newBlog = await blogService.create(blogObj)
-			console.log(newBlog.user)
-			setBlogs(blogs.concat(newBlog))
+
+			// setBlogs(blogs.concat(newBlog))
+			const blogs = await blogService.getAll()
+			setBlogs(blogs)
 			setNotification(`Blog '${newBlog.title}' created successfully`)
 			setTimeout(() => {
 				setNotification(null)
