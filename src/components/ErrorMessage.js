@@ -1,10 +1,10 @@
 
-const ErrorMessage = ({errorMessage}) => {
-	return(
-		<div>
-			<p>{errorMessage}</p>
-		</div>
-	)
+const ErrorMessage = ({ errorMessage }) => {
+  return (
+    <div>
+      <p>{errorMessage}</p>
+    </div>
+  )
 }
 
 export default ErrorMessage
