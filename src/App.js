@@ -16,9 +16,6 @@ const App = () => {
 	const [password, setPassword] = useState("")
 	const [user, setUser] = useState(null)
 
-	// const [title, setTitle] = useState("")
-	// const [author, setAuthor] = useState("")
-	// const [url, setUrl] = useState("")
 
 	const blogFormRef = useRef()
 
@@ -26,12 +23,11 @@ const App = () => {
 	const [notification, setNotification] = useState(null)
 
   useEffect(() => {
-    // blogService.getAll().then(blogs =>
-    //   setBlogs( blogs )
-    // )
+
 		const getAllBlogs = async () => {
 			try{
 				const response = await blogService.getAll()
+				response.sort((a,b) => b.likes - a.likes)
 				setBlogs(response)
 			}catch(error){
 				console.log(error)
@@ -57,6 +53,7 @@ const App = () => {
 	const handlePasswordChange = ({target}) => {
 		setPassword(target.value)
 	}
+
 
 	const handleLogin = async (event) => {
 		event.preventDefault()
@@ -93,9 +90,9 @@ const App = () => {
 		blogFormRef.current.toggleVisibility()
 		try{
 			const newBlog = await blogService.create(blogObj)
-
 			// setBlogs(blogs.concat(newBlog))
 			const blogs = await blogService.getAll()
+			blogs.sort((a,b) => b.likes - a.likes)
 			setBlogs(blogs)
 			setNotification(`Blog '${newBlog.title}' created successfully`)
 			setTimeout(() => {
@@ -110,17 +107,37 @@ const App = () => {
 		}
 	}
 
-	// const handleTitleChange = ({target}) => {
-	// 	setTitle(target.value)
-	// }
+	const deleteBlog = async (blogId) => {
+		try{
+			await blogService.remove(blogId)
+			const blogs = await blogService.getAll()
+			blogs.sort((a,b) => b.likes - a.likes)
+			setBlogs(blogs)
+		}catch(error){
+			console.log(error)
+		}
+	}
 
-	// const handleAuthorChange = ({target}) => {
-	// 	setAuthor(target.value)
-	// }
+	const likeBlog = async (blogObj, id) => {
+		try{
+			const updatedBlog = await blogService.update(blogObj, id)
 
-	// const handleUrlChange = ({target}) => {
-	// 	setUrl(target.value)
-	// }
+			const blogs = await blogService.getAll()
+			blogs.sort((a,b) => b.likes - a.likes)
+			setBlogs(blogs)
+			setNotification(`Blog '${updatedBlog.title}' was successfully updated`)
+			setTimeout(() => {
+				setNotification(null)
+			}, 4000)
+		}catch(error){
+			setErrorMessage("A title and a url must be provided")
+
+			setTimeout(() => {
+				setErrorMessage(null)
+			}, 4000)
+		}
+	}
+
 
   return (
     <div>
@@ -146,9 +163,11 @@ const App = () => {
 				</Toggleable>
 			}
       <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      {
+				blogs.map(blog =>
+					<Blog key={blog.id} blog={blog} likeBlog={likeBlog} deleteBlog={deleteBlog} user={user}/>
+				)
+			}
     </div>
   )
 }
