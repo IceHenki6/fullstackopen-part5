@@ -31,8 +31,8 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
     <div className="blog">
       <div className="blog-preview">
         <p className="blog-title">{blog.title}</p> <p className="blog-author">by {blog.author}</p>
-        <button className="view-btn button" onClick={toggleVisibility} style={hide}>View</button>
-        <button className="view-btn button" onClick={toggleVisibility} style={show}>Hide</button>
+        <button className="view-btn button" id='show-details' onClick={toggleVisibility} style={hide}>View</button>
+        <button className="view-btn button" id='hide-details' onClick={toggleVisibility} style={show}>Hide</button>
       </div>
 
       <div className="blog-info" style={show}>
