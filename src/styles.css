@@ -114,3 +114,14 @@ body{
 .delete-blog__btn:hover{
 	background-color: rgb(245, 109, 109);
 }
+
+.error-msg{
+  background-color: var(--font-color);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  color: red;
+  border: 1px solid red;
+  height: 40px;
+  border-radius: 8px;
+}

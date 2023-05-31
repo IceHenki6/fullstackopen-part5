@@ -3,7 +3,7 @@ import { useState } from 'react'
 const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
   const [visible, setVisible] = useState(false)
 
-  const hide = { display: visible ? 'none' : '' }
+  // const hide = { display: visible ? 'none' : '' }
   const show = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
@@ -31,8 +31,7 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
     <div className="blog">
       <div className="blog-preview">
         <p className="blog-title">{blog.title}</p> <p className="blog-author">by {blog.author}</p>
-        <button className="view-btn button" id='show-details' onClick={toggleVisibility} style={hide}>View</button>
-        <button className="view-btn button" id='hide-details' onClick={toggleVisibility} style={show}>Hide</button>
+        <button className="view-btn button" id='show-details' onClick={toggleVisibility}>{visible ? 'Hide' : 'View'}</button>
       </div>
 
       <div className="blog-info" style={show}>
